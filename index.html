@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Loader</title>
+</head>
+
+<body>
+<script src="loader.js"></script>
+<script>
+    //公司统一配置
+    window.define   = Loader.define;
+    window.require  = Loader.require;
+    window.incCombo = function(arrModName){
+        if(!arrModName.length){ return }
+        var url = 'http://127.0.0.1/combo/?'+
+                    'minify=false&host=127.0.0.1/&dir=/loader/&'+
+                    'files=' + arrModName.join(',');
+            
+        var script = document.createElement('script');
+        script.onload = script.onreadystatechange = function() {
+            if(!this.readyState || this.readyState=='loaded' || this.readyState=='complete'){
+                script.onload = script.onreadystatechange = null;
+                script.parentNode.removeChild(script);
+            }
+        };
+        script.src = url;
+        document.head.appendChild(script);
+    }
+</script>
+<script>
+    /*
+    //所有的配置都是可选的
+    Loader.config({ 
+        isCache     : true,
+        isTestEnv   : true,
+        version     : '2016020401',
+        jsPath      : 'js/',
+        jsMap: {
+            'init'              : 'init.js',
+                'mod-a'         : 'http：//cdn.com/mod-a.js',
+                    'mod-a1'    : 'js/mod-a1.js',
+                    'mod-a2'    : 'js/mod-a2.js',
+                'mod-b'         : 'pages/mod-b.js',
+                    'mod-b1'    : 'pages/mod-b1.js',
+                    'mod-b2'    : 'pages/mod-b2.js'
+        },
+        combo : incCombo     
+    });
+    */
+
+    require(['init'], function(){
+        console.log('success!');
+    });
+</script>
+</body>
+</html>
